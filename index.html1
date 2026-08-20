@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>أوركيد بيوتي | النظام المحاسبي الذكي</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f6f2f5;
+    color:#292329;
+}
+
+header{
+    background:linear-gradient(135deg,#741d4d,#c44d87);
+    color:white;
+    padding:18px;
+    text-align:center;
+    box-shadow:0 3px 12px #0002;
+}
+
+header h1{
+    margin:0 0 6px;
+    font-size:27px;
+}
+
+header p{
+    margin:0;
+}
+
+.container{
+    max-width:1500px;
+    margin:auto;
+    padding:12px;
+}
+
+nav{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    background:white;
+    padding:9px;
+    margin:12px 0;
+    border-radius:12px;
+    box-shadow:0 2px 8px #0001;
+}
+
+nav button{
+    border:0;
+    padding:11px 15px;
+    border-radius:8px;
+    background:#eee;
+    cursor:pointer;
+    white-space:nowrap;
+    font-weight:bold;
+}
+
+nav button.active,
+nav button:hover{
+    background:#a72e6a;
+    color:white;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.card{
+    background:white;
+    padding:17px;
+    border-radius:13px;
+    box-shadow:0 2px 9px #0001;
+    border-right:5px solid #ad3670;
+}
+
+.card small{
+    color:#777;
+}
+
+.card strong{
+    display:block;
+    margin-top:8px;
+    color:#8e2459;
+    font-size:21px;
+}
+
+.box{
+    background:white;
+    padding:17px;
+    border-radius:13px;
+    box-shadow:0 2px 9px #0001;
+    margin-bottom:13px;
+}
+
+.box h2{
+    color:#8d2759;
+    margin-top:0;
+}
+
+.form{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+}
+
+textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:#a72e6a;
+}
+
+button{
+    cursor:pointer;
+}
+
+.btn{
+    border:0;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#a72e6a;
+    color:white;
+}
+
+.success{
+    background:#198754;
+    color:white;
+}
+
+.warning{
+    background:#f0ad4e;
+    color:white;
+}
+
+.danger{
+    background:#d9534f;
+    color:white;
+}
+
+.dark{
+    background:#333;
+    color:white;
+}
+
+.light{
+    background:#eee;
+}
+
+.search{
+    margin-bottom:10px;
+}
+
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    min-width:950px;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+th{
+    background:#f3e1eb;
+    color:#76204e;
+    position:sticky;
+    top:0;
+}
+
+.paid{
+    color:#16834c;
+    font-weight:bold;
+}
+
+.remaining{
+    color:#d35400;
+    font-weight:bold;
+}
+
+.profit{
+    color:#16834c;
+    font-weight:bold;
+}
+
+.low{
+    color:#d9534f;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    gap:5px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.empty{
+    padding:25px;
+    text-align:center;
+    color:#888;
+}
+
+.command-box{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.command-box input{
+    flex:1;
+}
+
+.info{
+    background:#f8eaf1;
+    padding:12px;
+    border-radius:9px;
+    line-height:1.8;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0008;
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-content{
+    background:white;
+    width:min(700px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border-radius:14px;
+    padding:20px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.close{
+    background:#eee;
+    border:0;
+    border-radius:7px;
+    padding:7px 12px;
+}
+
+.toast{
+    position:fixed;
+    left:15px;
+    bottom:15px;
+    background:#222;
+    color:white;
+    padding:12px 17px;
+    border-radius:9px;
+    display:none;
+    z-index:2000;
+}
+
+.toast.show{
+    display:block;
+}
+
+@media(max-width:900px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .form{
+        grid-template-columns:1fr;
+    }
+
+    header h1{
+        font-size:22px;
+    }
+
+    .card{
+        padding:12px;
+    }
+
+    .card strong{
+        font-size:17px;
+    }
+
+    .command-box{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🌸 أوركيد بيوتي</h1>
+<p>نظام المحاسبة والمبيعات والمشتريات والمخزون والديون الذكي</p>
+</header>
+
+<div class="container">
+
+<nav>
+<button class="active" onclick="page('dashboard',this)">الرئيسية</button>
+<button onclick="page('sales',this)">المبيعات</button>
+<button onclick="page('purchases',this)">المشتريات</button>
+<button onclick="page('products',this)">المنتجات</button>
+<button onclick="page('customers',this)">الزبائن</button>
+<button onclick="page('debts',this)">الديون</button>
+<button onclick="page('columns',this)">الأعمدة</button>
+<button onclick="page('settings',this)">الإدارة</button>
+</nav>
+
+<!-- الرئيسية -->
+
+<section id="dashboard" class="page active">
+
+<div class="box">
+
+<h2>🧠 المساعد الذكي</h2>
+
+<div class="command-box">
+<input id="command"
+placeholder="مثال: أضف منتج شامبو، أو أضف زبون محمد">
+<button class="btn primary" onclick="smartCommand()">تنفيذ الأمر</button>
+</div>
+
+<div class="info">
+<strong>أوامر ذكية مقترحة:</strong><br>
+• أضف منتج + اسم المنتج<br>
+• أضف زبون + اسم الزبون<br>
+• تصفير المبيعات<br>
+• تصفير المشتريات<br>
+• تصفير الديون<br>
+• تصفير المخزون<br>
+• تصفير الكل
+</div>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+<small>إجمالي المبيعات</small>
+<strong id="dSales">0</strong>
+</div>
+
+<div class="card">
+<small>إجمالي المشتريات</small>
+<strong id="dPurchases">0</strong>
+</div>
+
+<div class="card">
+<small>المدفوع</small>
+<strong id="dPaid">0</strong>
+</div>
+
+<div class="card">
+<small>المتبقي</small>
+<strong id="dRemaining">0</strong>
+</div>
+
+<div class="card">
+<small>الأرباح</small>
+<strong id="dProfit">0</strong>
+</div>
+
+<div class="card">
+<small>المنتجات</small>
+<strong id="dProducts">0</strong>
+</div>
+
+<div class="card">
+<small>الزبائن</small>
+<strong id="dCustomers">0</strong>
+</div>
+
+<div class="card">
+<small>الديون</small>
+<strong id="dDebts">0</strong>
+</div>
+
+</div>
+
+</section>
+
+<!-- المبيعات -->
+
+<section id="sales" class="page">
+
+<div class="box">
+
+<h2>➕ إضافة بيع جديد</h2>
+
+<div class="form">
+
+<input id="saleCustomer" list="customerList" placeholder="اسم الزبون">
+
+<input id="saleProduct" list="productList" placeholder="اسم المنتج">
+
+<input id="saleQty" type="number" min="1" placeholder="الكمية">
+
+<input id="salePrice" type="number" min="0" placeholder="سعر الوحدة">
+
+<input id="salePaid" type="number" min="0" placeholder="المدفوع">
+
+<input id="saleNote" placeholder="ملاحظات">
+
+<button class="btn primary" onclick="addSale()">حفظ البيع</button>
+
+</div>
+
+<datalist id="customerList"></datalist>
+<datalist id="productList"></datalist>
+
+</div>
+
+<div class="box">
+
+<h2>🧾 سجل المبيعات</h2>
+
+<input class="search"
+id="salesSearch"
+oninput="renderSales()"
+placeholder="🔎 ابحث باسم الزبون أو المنتج">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>التاريخ</th>
+<th>رقم الفاتورة</th>
+<th>الزبون</th>
+<th>المنتج</th>
+<th>الكمية</th>
+<th>الإجمالي</th>
+<th>المدفوع</th>
+<th>المتبقي</th>
+<th>ملاحظات</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
+
+<tbody id="salesTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+<!-- المشتريات -->
+
+<section id="purchases" class="page">
+
+<div class="box">
+
+<h2>➕ إضافة شراء جديد</h2>
+
+<div class="form">
+
+<input id="purchaseSupplier" placeholder="اسم المورد">
+
+<input id="purchaseProduct" list="productList2" placeholder="اسم المنتج">
+
+<input id="purchaseQty" type="number" min="1" placeholder="الكمية">
+
+<input id="purchasePrice" type="number" min="0" placeholder="سعر الشراء">
+
+<input id="purchasePaid" type="number" min="0" placeholder="المدفوع">
+
+<button class="btn primary" onclick="addPurchase()">حفظ الشراء</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>📦 سجل المشتريات</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>التاريخ</th>
+<th>رقم الفاتورة</th>
+<th>المورد</th>
+<th>المنتج</th>
+<th>الكمية</th>
+<th>الإجمالي</th>
+<th>المدفوع</th>
+<th>المتبقي</th>
+<th>الإجراء</th>
+</tr>
+</thead>
+
+<tbody id="purchasesTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+<!-- المنتجات -->
+
+<section id="products" class="page">
+
+<div class="box">
+
+<h2>➕ إضافة منتج جديد</h2>
+
+<div class="form">
+
+<input id="productName" placeholder="اسم المنتج">
+
+<input id="productCode" placeholder="كود المنتج">
+
+<input id="productBuy" type="number" placeholder="سعر الشراء">
+
+<input id="productSell" type="number" placeholder="سعر البيع">
+
+<input id="productStock" type="number" placeholder="الكمية">
+
+<input id="productMin" type="number" placeholder="حد التنبيه">
+
+<button class="btn primary" onclick="addProduct()">إضافة المنتج</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>📋 المنتجات والمخزون</h2>
+
+<input class="search"
+id="productSearch"
+oninput="renderProducts()"
+placeholder="🔎 البحث عن منتج">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>الكود</th>
+<th>المنتج</th>
+<th>سعر الشراء</th>
+<th>سعر البيع</th>
+<th>المخزون</th>
+<th>حد التنبيه</th>
+<th>ربح الوحدة</th>
+<th>قيمة المخزون</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
+
+<tbody id="productsTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+<!-- الزبائن -->
+
+<section id="customers" class="page">
+
+<div class="box">
+
+<h2>👤 إضافة زبون جديد</h2>
+
+<div class="form">
+
+<input id="customerName" placeholder="اسم الزبون">
+
+<input id="customerPhone" placeholder="رقم الهاتف">
+
+<input id="customerAddress" placeholder="العنوان">
+
+<input id="customerNote" placeholder="ملاحظات">
+
+<button class="btn primary" onclick="addCustomer()">حفظ الزبون</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>👥 قائمة الزبائن</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>الاسم</th>
+<th>الهاتف</th>
+<th>العنوان</th>
+<th>إجمالي المبيعات</th>
+<th>المدفوع</th>
+<th>المتبقي</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
+
+<tbody id="customersTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+<!-- الديون -->
+
+<section id="debts" class="page">
+
+<div class="box">
+
+<h2>💰 إدارة الديون</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>التاريخ</th>
+<th>رقم الفاتورة</th>
+<th>الزبون</th>
+<th>الإجمالي</th>
+<th>المدفوع</th>
+<th>المتبقي</th>
+<th>تسديد</th>
+</tr>
+</thead>
+
+<tbody id="debtsTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- الأعمدة -->
+
+<section id="columns" class="page">
+
+<div class="box">
+
+<h2>⚙️ إضافة عمود جديد</h2>
+
+<div class="form">
+
+<input id="columnName"
+placeholder="مثال: اللون، المقاس، الشركة، الملاحظات">
+
+<select id="columnTable">
+<option value="sales">المبيعات</option>
+<option value="products">المنتجات</option>
+<option value="customers">الزبائن</option>
+<option value="purchases">المشتريات</option>
+</select>
+
+<button class="btn primary" onclick="addColumn()">إضافة العمود</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>الأعمدة المضافة</h2>
+
+<div id="columnsList"></div>
+
+</div>
+
+</section>
+
+<!-- الإدارة -->
+
+<section id="settings" class="page">
+
+<div class="box">
+
+<h2>🛠️ إدارة البيانات</h2>
+
+<p>استخدم هذه الأزرار بحذر.</p>
+
+<br>
+
+<div class="actions">
+
+<button class="btn warning" onclick="resetData('sales')">
+تصفير المبيعات
+</button>
+
+<button class="btn warning" onclick="resetData('purchases')">
+تصفير المشتريات
+</button>
+
+<button class="btn warning" onclick="resetData('products')">
+تصفير المخزون
+</button>
+
+<button class="btn warning" onclick="resetData('customers')">
+تصفير الزبائن
+</button>
+
+<button class="btn warning" onclick="resetData('debts')">
+تصفير الديون
+</button>
+
+<button class="btn danger" onclick="resetData('all')">
+⚠️ تصفير كل البرنامج
+</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>💾 النسخ الاحتياطي</h2>
+
+<button class="btn success" onclick="backup()">
+تحميل نسخة احتياطية
+</button>
+
+<button class="btn dark" onclick="document.getElementById('restoreFile').click()">
+استعادة نسخة
+</button>
+
+<input
+id="restoreFile"
+type="file"
+accept=".json"
+style="display:none"
+onchange="restore(event)">
+
+</div>
+
+</section>
+
+</div>
+
+<div id="modal" class="modal">
+
+<div class="modal-content">
+
+<div class="modal-head">
+
+<h2>✏️ تعديل البيانات</h2>
+
+<button class="close" onclick="closeModal()">إغلاق</button>
+
+</div>
+
+<div id="modalBody"></div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+/* ================================
+   قاعدة البيانات المحلية
+================================ */
+
+const DB_KEY="ORCHID_BEAUTY_SMART_V2";
+
+let db=JSON.parse(
+    localStorage.getItem(DB_KEY) ||
+    JSON.stringify({
+        sales:[],
+        purchases:[],
+        products:[],
+        customers:[],
+        columns:[]
+    })
+);
+
+function save(){
+
+    localStorage.setItem(DB_KEY,JSON.stringify(db));
+
+}
+
+function id(){
+
+    return Date.now()+Math.floor(Math.random()*1000);
+
+}
+
+function today(){
+
+    return new Date().toLocaleDateString("ar-YE");
+
+}
+
+function money(n){
+
+    return Number(n||0).toLocaleString("ar-YE")+" ريال";
+
+}
+
+function esc(v){
+
+    return String(v??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+function toast(message){
+
+    const t=document.getElementById("toast");
+
+    t.textContent=message;
+
+    t.classList.add("show");
+
+    setTimeout(()=>{
+        t.classList.remove("show");
+    },2500);
+
+}
+
+/* ================================
+   التنقل
+================================ */
+
+function page(name,button){
+
+    document.querySelectorAll(".page")
+    .forEach(x=>x.classList.remove("active"));
+
+    document.getElementById(name)
+    .classList.add("active");
+
+    document.querySelectorAll("nav button")
+    .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    renderAll();
+
+}
+
+/* ================================
+   المنتجات
+================================ */
+
+function addProduct(){
+
+    const name=document.getElementById("productName").value.trim();
+    const code=document.getElementById("productCode").value.trim();
+    const buy=+document.getElementById("productBuy").value;
+    const sell=+document.getElementById("productSell").value;
+    const stock=+document.getElementById("productStock").value;
+    const min=+document.getElementById("productMin").value||0;
+
+    if(!name){
+
+        toast("اكتب اسم المنتج");
+
+        return;
+
+    }
+
+    const old=db.products.find(p=>p.name===name);
+
+    if(old){
+
+        old.buy=buy||old.buy;
+        old.sell=sell||old.sell;
+        old.stock+=stock||0;
+        old.min=min;
+
+        toast("تم تحديث المنتج");
+
+    }else{
+
+        db.products.push({
+            id:id(),
+            name,
+            code,
+            buy,
+            sell,
+            stock,
+            min
+        });
+
+        toast("تمت إضافة المنتج");
+
+    }
+
+    save();
+
+    clear([
+        "productName",
+        "productCode",
+        "productBuy",
+        "productSell",
+        "productStock",
+        "productMin"
+    ]);
+
+    renderAll();
+
+}
+
+function renderProducts(){
+
+    const search=(
+        document.getElementById("productSearch")?.value||""
+    ).toLowerCase();
+
+    const list=db.products.filter(p=>
+        p.name.toLowerCase().includes(search) ||
+        String(p.code).toLowerCase().includes(search)
+    );
+
+    const table=document.getElementById("productsTable");
+
+    if(!list.length){
+
+        table.innerHTML=
+        `<tr><td colspan="9" class="empty">
+        لا توجد منتجات
+        </td></tr>`;
+
+        return;
+
+    }
+
+    table.innerHTML=list.map(p=>`
+
+    <tr>
+
+        <td>${esc(p.code||"-")}</td>
+
+        <td>${esc(p.name)}</td>
+
+        <td>${money(p.buy)}</td>
+
+        <td>${money(p.sell)}</td>
+
+        <td class="${p.stock<=p.min?'low':''}">
+            ${p.stock}
+        </td>
+
+        <td>${p.min}</td>
+
+        <td class="profit">
+            ${money(p.sell-p.buy)}
+        </td>
+
+        <td>
+            ${money(p.stock*p.buy)}
+        </td>
+
+        <td>
+
+            <div class="actions">
+
+                <button class="btn primary"
+                onclick="editProduct(${p.id})">
+                تعديل
+                </button>
+
+                <button class="btn danger"
+                onclick="deleteProduct(${p.id})">
+                حذف
+                </button>
+
+            </div>
+
+        </td>
+
+    </tr>
+
+    `).join("");
+
+}
+
+/* ================================
+   الزبائن
+================================ */
+
+function addCustomer(){
+
+    const name=document.getElementById("customerName").value.trim();
+    const phone=document.getElementById("customerPhone").value.trim();
+    const address=document.getElementById("customerAddress").value.trim();
+    const note=document.getElementById("customerNote").value.trim();
+
+    if(!name){
+
+        toast("اكتب اسم الزبون");
+
+        return;
+
+    }
+
+    db.customers.push({
+        id:id(),
+        name,
+        phone,
+        address,
+        note
+    });
+
+    save();
+
+    clear([
+        "customerName",
+        "customerPhone",
+        "customerAddress",
+        "customerNote"
+    ]);
+
+    renderAll();
+
+    toast("تمت إضافة الزبون");
+
+}
+
+function customerStats(name){
+
+    const list=db.sales.filter(s=>s.customer===name);
+
+    return {
+
+        total:list.reduce((a,b)=>a+b.total,0),
+
+        paid:list.reduce((a,b)=>a+b.paid,0),
+
+        remaining:list.reduce((a,b)=>a+b.remaining,0)
+
+    };
+
+}
+
+function renderCustomers(){
+
+    const table=document.getElementById("customersTable");
+
+    if(!db.customers.length){
+
+        table.innerHTML=
+        `<tr><td colspan="7" class="empty">
+        لا يوجد زبائن
+        </td></tr>`;
+
+        return;
+
+    }
+
+    table.innerHTML=db.customers.map(c=>{
+
+        const s=customerStats(c.name);
+
+        return `
+
+        <tr>
+
+        <td>${esc(c.name)}</td>
+
+        <td>${esc(c.phone||"-")}</td>
+
+        <td>${esc(c.address||"-")}</td>
+
+        <td>${money(s.total)}</td>
+
+        <td class="paid">${money(s.paid)}</td>
+
+        <td class="remaining">${money(s.remaining)}</td>
+
+        <td>
+
+        <div class="actions">
+
+        <button class="btn primary"
+        onclick="editCustomer(${c.id})">
+        تعديل
+        </button>
+
+        <button class="btn danger"
+        onclick="deleteCustomer(${c.id})">
+        حذف
+        </button>
+
+        </div>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    }).join("");
+
+}
+
+/* ================================
+   المبيعات
+================================ */
+
+function addSale(){
+
+    const customer=document.getElementById("saleCustomer").value.trim();
+    const product=document.getElementById("saleProduct").value.trim();
+    const qty=+document.getElementById("saleQty").value;
+    const price=+document.getElementById("salePrice").value;
+    const paid=+document.getElementById("salePaid").value||0;
+    const note=document.getElementById("saleNote").value.trim();
+
+    if(!customer||!product||qty<=0||price<0){
+
+        toast("أكمل بيانات البيع");
+
+        return;
+
+    }
+
+    const total=qty*price;
+
+    if(paid>total){
+
+        toast("المدفوع أكبر من الإجمالي");
+
+        return;
+
+    }
+
+    const p=db.products.find(x=>x.name===product);
+
+    if(p && p.stock<qty){
+
+        if(!confirm(
+            "المخزون المتوفر "+p.stock+
+            " فقط. هل تريد تسجيل البيع رغم ذلك؟"
+        )) return;
+
+    }
+
+    if(p){
+
+        p.stock-=qty;
+
+    }
+
+    const invoice="S-"+Date.now();
+
+    db.sales.push({
+
+        id:id(),
+        invoice,
+        date:today(),
+        customer,
+        product,
+        qty,
+        price,
+        total,
+        paid,
+        remaining:total-paid,
+        note
+
+    });
+
+    if(!db.customers.some(c=>c.name===customer)){
+
+        db.customers.push({
+            id:id(),
