@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#7c3aed">
+<title>أوركيد بيوتي - المحاسب الذكي</title>
+
+<style>
+:root{
+  --primary:#7c3aed;
+  --primary2:#a855f7;
+  --dark:#17121f;
+  --bg:#f6f3fa;
+  --card:#ffffff;
+  --text:#241d2b;
+  --muted:#777080;
+  --green:#16a34a;
+  --red:#dc2626;
+  --orange:#ea580c;
+  --border:#e8e1ed;
+  --shadow:0 8px 30px rgba(50,30,70,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+button,input,select,textarea{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  padding:18px 20px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 5px 20px rgba(70,30,100,.2);
+}
+
+.header-inner{
+  max-width:1500px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+}
+
+.brand h1{
+  margin:0;
+  font-size:22px;
+}
+
+.brand small{
+  opacity:.85;
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.header-btn{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.12);
+  color:white;
+  border-radius:10px;
+  padding:9px 12px;
+}
+
+/* LAYOUT */
+
+.layout{
+  max-width:1500px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:240px 1fr;
+  min-height:calc(100vh - 88px);
+}
+
+.sidebar{
+  background:#fff;
+  border-left:1px solid var(--border);
+  padding:15px;
+  position:sticky;
+  top:88px;
+  height:calc(100vh - 88px);
+  overflow:auto;
+}
+
+.nav-btn{
+  width:100%;
+  border:0;
+  background:transparent;
+  text-align:right;
+  padding:12px 14px;
+  margin-bottom:5px;
+  border-radius:11px;
+  color:var(--text);
+  font-size:14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  background:#f1e9ff;
+  color:var(--primary);
+  font-weight:bold;
+}
+
+.content{
+  padding:20px;
+  min-width:0;
+}
+
+/* CARDS */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.stat-icon{
+  width:45px;
+  height:45px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1e9ff;
+  font-size:22px;
+}
+
+.stat h3{
+  margin:0 0 7px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.stat strong{
+  font-size:22px;
+}
+
+/* SECTIONS */
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:21px;
+}
+
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  background:var(--primary);
+  color:white;
+  font-weight:bold;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.btn.secondary{
+  background:#ede8f3;
+  color:var(--text);
+}
+
+.btn.green{
+  background:var(--green);
+}
+
+.btn.red{
+  background:var(--red);
+}
+
+.btn.orange{
+  background:var(--orange);
+}
+
+.btn.small{
+  padding:6px 9px;
+  font-size:12px;
+}
+
+/* TABLE */
+
+.table-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.table-wrap{
+  width:100%;
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  min-width:850px;
+  border-collapse:collapse;
+}
+
+th,td{
+  border-bottom:1px solid var(--border);
+  padding:11px 10px;
+  text-align:right;
+  white-space:nowrap;
+}
+
+th{
+  background:#faf8fc;
+  font-size:13px;
+  color:#5e5266;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+
+tr:hover td{
+  background:#fcfaff;
+}
+
+tfoot td{
+  font-weight:bold;
+  background:#f7f2ff;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.badge.paid{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.badge.debt{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.badge.partial{
+  background:#ffedd5;
+  color:#c2410c;
+}
+
+/* FORMS */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field label{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:bold;
+}
+
+.field input,
+.field select,
+.field textarea,
+.search{
+  width:100%;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:10px;
+  padding:11px;
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.search:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px #eee5ff;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(20,10,30,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000;
+  padding:15px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:min(900px,100%);
+  max-height:92vh;
+  overflow:auto;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.close{
+  border:0;
+  background:#f3eef6;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+}
+
+/* INVOICE */
+
+.invoice-items{
+  margin-top:15px;
+}
+
+.invoice-total-box{
+  margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.total-item{
+  background:#f8f5fa;
+  padding:14px;
+  border-radius:12px;
+}
+
+.total-item span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.total-item strong{
+  font-size:19px;
+}
+
+.remaining{
+  color:var(--red);
+}
+
+.paid-text{
+  color:var(--green);
+}
+
+/* CUSTOMER */
+
+.customer-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+/* COMMAND */
+
+.command-box{
+  background:linear-gradient(135deg,#22152e,#3d2053);
+  color:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:20px;
+}
+
+.command-box h3{
+  margin-top:0;
+}
+
+.command-input{
+  display:flex;
+  gap:8px;
+}
+
+.command-input input{
+  flex:1;
+  border:0;
+  border-radius:10px;
+  padding:13px;
+  outline:none;
+}
+
+.command-result{
+  margin-top:10px;
+  font-size:13px;
+  min-height:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:fixed;
+    bottom:0;
+    top:auto;
+    right:0;
+    left:0;
+    width:100%;
+    height:auto;
+    z-index:2000;
+    border-top:1px solid var(--border);
+    border-left:0;
+    padding:7px;
+    display:flex;
+    overflow-x:auto;
+  }
+
+  .nav-btn{
+    min-width:85px;
+    text-align:center;
+    font-size:11px;
+    margin:0;
+  }
+
+  .content{
+    padding-bottom:100px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .header-inner{
+    align-items:flex-start;
+  }
+
+  .brand h1{
+    font-size:17px;
+  }
+
+  .header-actions{
+    display:none;
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .card{
+    padding:12px;
+  }
+
+  .stat strong{
+    font-size:17px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .invoice-total-box,
+  .customer-summary{
+    grid-template-columns:1fr;
+  }
+
+  .content{
+    padding:12px;
+  }
+}
+
+/* PRINT */
+
+@media print{
+  header,.sidebar,.toolbar,.no-print{
+    display:none!important;
+  }
+
+  .layout{
+    display:block;
+  }
+
+  .content{
+    padding:0;
+  }
+
+  .section{
+    display:none!important;
+  }
+
+  #printArea{
+    display:block!important;
+  }
+
+  body{
+    background:white;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="header-inner">
+
+    <div class="brand">
+      <div class="logo">🌸</div>
+      <div>
+        <h1>أوركيد بيوتي</h1>
+        <small>المحاسب الذكي</small>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="header-btn" onclick="backupData()">💾 نسخة احتياطية</button>
+      <button class="header-btn" onclick="document.getElementById('restoreFile').click()">📥 استعادة</button>
+      <button class="header-btn" onclick="window.print()">🖨️ طباعة</button>
+      <input id="restoreFile" type="file" accept=".json" style="display:none" onchange="restoreData(event)">
+    </div>
+
+  </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+  <button class="nav-btn active" onclick="showSection('dashboard',this)">🏠 الرئيسية</button>
+  <button class="nav-btn" onclick="showSection('sales',this)">🧾 المبيعات</button>
+  <button class="nav-btn" onclick="showSection('purchases',this)">🛒 المشتريات</button>
+  <button class="nav-btn" onclick="showSection('customers',this)">👥 العملاء</button>
+  <button class="nav-btn" onclick="showSection('products',this)">📦 المنتجات</button>
+  <button class="nav-btn" onclick="showSection('debts',this)">💰 الديون</button>
+  <button class="nav-btn" onclick="showSection('columns',this)">📊 الأعمدة</button>
+  <button class="nav-btn" onclick="showSection('rows',this)">📋 الصفوف</button>
+  <button class="nav-btn" onclick="showSection('reports',this)">📈 التقارير</button>
+  <button class="nav-btn" onclick="showSection('settings',this)">⚙️ الإعدادات</button>
+
+</aside>
+
+<main class="content">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+  <div class="section-title">
+    <h2>لوحة التحكم</h2>
+    <span id="today"></span>
+  </div>
+
+  <div class="command-box">
+
+    <h3>🤖 الأوامر الذكية</h3>
+
+    <div class="command-input">
+      <input id="commandInput"
+             placeholder="مثال: أضف عميل محمد 777123456">
+      <button class="btn" onclick="runCommand()">تنفيذ</button>
+    </div>
+
+    <div class="command-result" id="commandResult">
+      جرّب: «أضف عميل أحمد 777000000» أو «تصفير فاتورة 1»
+    </div>
+
+  </div>
+
+  <div class="cards">
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي المبيعات</h3>
+        <strong id="totalSales">0</strong>
+      </div>
+      <div class="stat-icon">💵</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي المشتريات</h3>
+        <strong id="totalPurchases">0</strong>
+      </div>
+      <div class="stat-icon">🛒</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي المدفوع</h3>
+        <strong id="totalPaid">0</strong>
+      </div>
+      <div class="stat-icon">✅</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي المتبقي</h3>
+        <strong id="totalRemaining" class="remaining">0</strong>
+      </div>
+      <div class="stat-icon">⚠️</div>
+    </div>
+
+  </div>
+
+  <div class="cards">
+
+    <div class="card stat">
+      <div>
+        <h3>الأرباح التقريبية</h3>
+        <strong id="profit">0</strong>
+      </div>
+      <div class="stat-icon">📈</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>عدد العملاء</h3>
+        <strong id="customersCount">0</strong>
+      </div>
+      <div class="stat-icon">👥</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>عدد المنتجات</h3>
+        <strong id="productsCount">0</strong>
+      </div>
+      <div class="stat-icon">📦</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>فواتير آجلة</h3>
+        <strong id="debtInvoices">0</strong>
+      </div>
+      <div class="stat-icon">🧾</div>
+    </div>
+
+  </div>
+
+  <div class="table-card">
+    <div style="padding:15px">
+      <strong>آخر الفواتير</strong>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>رقم</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>الإجمالي</th>
+            <th>المدفوع</th>
+            <th>المتبقي</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody id="recentInvoices"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">الإجمالي العمودي</td>
+            <td id="dashTotal">0</td>
+            <td id="dashPaid">0</td>
+            <td id="dashRemaining">0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- SALES -->
+
+<section id="sales" class="section">
+
+  <div class="section-title">
+    <h2>🧾 فواتير المبيعات</h2>
+    <button class="btn" onclick="openInvoiceModal('sale')">+ فاتورة مبيعات</button>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" id="salesSearch" placeholder="🔎 ابحث برقم الفاتورة أو اسم العميل..." oninput="renderSales()">
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الفاتورة</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>الأصناف</th>
+            <th>الإجمالي</th>
+            <th>المدفوع</th>
+            <th>المتبقي</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="salesTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="4">الإجمالي العمودي</td>
+            <td id="salesTotal">0</td>
+            <td id="salesPaid">0</td>
+            <td id="salesRemaining">0</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PURCHASES -->
+
+<section id="purchases" class="section">
+
+  <div class="section-title">
+    <h2>🛒 المشتريات</h2>
+    <button class="btn" onclick="openInvoiceModal('purchase')">+ فاتورة شراء</button>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الفاتورة</th>
+            <th>التاريخ</th>
+            <th>المورد</th>
+            <th>الأصناف</th>
+            <th>الإجمالي</th>
+            <th>المدفوع</th>
+            <th>المتبقي</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="purchasesTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="4">الإجمالي العمودي</td>
+            <td id="purchaseTotal">0</td>
+            <td id="purchasePaid">0</td>
+            <td id="purchaseRemaining">0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- CUSTOMERS -->
+
+<section id="customers" class="section">
+
+  <div class="section-title">
+    <h2>👥 العملاء</h2>
+    <button class="btn" onclick="openCustomerModal()">+ إضافة عميل</button>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" id="customerSearch" placeholder="🔎 ابحث باسم العميل أو الهاتف..." oninput="renderCustomers()">
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم العميل</th>
+            <th>رقم الهاتف</th>
+            <th>عدد الفواتير</th>
+            <th>إجمالي المشتريات</th>
+            <th>المسلم</th>
+            <th>عليه دين</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="customersTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="4">إجمالي العملاء</td>
+            <td id="customerTotal">0</td>
+            <td id="customerPaid">0</td>
+            <td id="customerDebt">0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="products" class="section">
+
+  <div class="section-title">
+    <h2>📦 المنتجات والمخزون</h2>
+    <button class="btn" onclick="openProductModal()">+ منتج جديد</button>
+  </div>
+
+  <div class="table-card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم المنتج</th>
+            <th>التصنيف</th>
+            <th>سعر الشراء</th>
+            <th>سعر البيع</th>
+            <th>الكمية</th>
+            <th>قيمة المخزون</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody id="productsTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="5">إجمالي المخزون</td>
+            <td id="stockCount">0</td>
+            <td id="stockValue">0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DEBTS -->
+
+<section id="debts" class="section">
+
+  <div class="section-title">
+    <h2>💰 إدارة الديون والتحصيل</h2>
+  </div>
+
+  <div class="cards">
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي ديون العملاء</h3>
+        <strong id="debtCustomers">0</strong>
+      </div>
+      <div class="stat-icon">👤</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>إجمالي ما تم تسليمه</h3>
+        <strong id="debtPaid">0</strong>
+      </div>
+      <div class="stat-icon">💵</div>
+    </div>
+
+    <div class="card stat">
+      <div>
+        <h3>عدد المدينين</h3>
+        <strong id="debtorsCount">0</strong>
+      </div>
+      <div class="stat-icon">⚠️</div>
+    </div>
+
+  </div>
+
+  <div class="table-card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>العميل</th>
+            <th>الهاتف</th>
+            <th>إجمالي الفواتير</th>
+            <th>المسلم</th>
+            <th>عليه</th>
+            <th>تسديد</th>
+            <th>تصفير</th>
+          </tr>
+        </thead>
+
+        <tbody id="debtsTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="2">الإجمالي العمودي</td>
+            <td id="debtTableTotal">0</td>
+            <td id="debtTablePaid">0</td>
+            <td id="debtTableRemaining">0</td>
+            <td colspan="2"></td>
+          </tr>
+        </tfoot>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- COLUMNS -->
+
+<section id="columns" class="section">
+
+  <div class="section-title">
+    <h2>📊 إدارة الأعمدة</h2>
+    <button class="btn" onclick="addCustomColumn()">+ إضافة عمود</button>
+  </div>
+
+  <div class="card">
+
+    <p>
+      يمكنك إضافة أعمدة جديدة إلى جدول الفواتير.
+      مثال: الخصم، الضريبة، طريقة الدفع، الموظف، ملاحظات.
+    </p>
+
+    <div class="table-card">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>اسم العمود</th>
+              <th>نوع البيانات</th>
+              <th>اتجاه</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+
+          <tbody id="columnsTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ROWS -->
+
+<section id="rows" class="section">
+
+  <div class="section-title">
+    <h2>📋 الصفوف الإضافية</h2>
+    <button class="btn" onclick="addCustomRow()">+ إضافة صف</button>
+  </div>
+
+  <div class="card">
+
+    <p>
+      هذه المنطقة مخصصة للبيانات الإضافية التي تريد الاحتفاظ بها.
+      يمكنك إنشاء صفوف مثل: المصروفات، النقل، الرواتب، الكهرباء، وغيرها.
+    </p>
+
+    <div class="table-card">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>اسم الصف</th>
+              <th>القيمة</th>
+              <th>ملاحظات</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+
+          <tbody id="rowsTable"></tbody>
+
+          <tfoot>
+            <tr>
+              <td>الإجمالي</td>
+              <td id="customRowsTotal">0</td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section id="reports" class="section">
+
+  <div class="section-title">
+    <h2>📈 التقارير</h2>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>المبيعات</h3>
+      <h2 id="reportSales">0</h2>
+    </div>
+
+    <div class="card">
+      <h3>المشتريات</h3>
+      <h2 id="reportPurchases">0</h2>
+    </div>
+
+    <div class="card">
+      <h3>الربح</h3>
+      <h2 id="report
